@@ -2,11 +2,13 @@ from django.shortcuts import render
 from django.http import HttpResponse, request
 # Create your views here.
 
-def calculate():
-    x=1
-    y=2
-    return x
+from rest_framework.views import APIView
+from rest_framework.response import Response
 
-def say_hello(request):
-    x = calculate()
-    return render(request, 'hello.html', { 'name': 'hwdp'})
+class TestView(APIView):
+    def get(self, request, *args, **kwargs):
+        date = {
+            'name': 'jogn',
+            'age': '23'
+        }
+        return Response(date)
