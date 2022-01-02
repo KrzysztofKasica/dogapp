@@ -1,11 +1,13 @@
 from django.db import models
 #from django.contrib.gis.db import models
 from django.db.models.fields import CharField, DateField, DateTimeField, TimeField
+from django.contrib.auth import get_user_model
 
+CustomU = get_user_model()
 # Create your models here.
 
 class User(models.Model):
-    email = models.EmailField(max_length=45)
+    email = models.CharField(max_length=45)
     passHash = models.CharField(max_length=255)
 
     class UserType(models.TextChoices):
@@ -19,15 +21,15 @@ class User(models.Model):
         NONACTIVE = '1'
 
     active = models.CharField(max_length=1, choices=activeHash.choices)
-    activeHash = models.CharField(max_length=255)
-    rememberToken = models.CharField(max_length=255, blank=True)
-    rememberAt = DateTimeField(null=True, blank=True)
+    #activeHash = models.CharField(max_length=255)
+    #rememberToken = models.CharField(max_length=255, blank=True)
+    #rememberAt = DateTimeField(null=True, blank=True)
     createdAt = DateTimeField(auto_now_add=True)
-    updatedAt = DateTimeField()
-    deletedAt = DateTimeField()
+    #updatedAt = DateTimeField()
+    #deletedAt = DateTimeField()
     
     def __str__(self):
-        return self.name
+        return self.email
 
 class Dogs(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -155,3 +157,14 @@ class MessagesUsers(models.Model):
 
     status = models.CharField(max_length=1, choices=Status.choices)
     createdAt = DateTimeField(auto_now_add=True)
+
+#test
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(CustomU, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.title
