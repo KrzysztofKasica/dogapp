@@ -1,3 +1,4 @@
+from sys import maxsize
 from django.shortcuts import render
 from django.http import HttpResponse, request
 from rest_framework import serializers, status
@@ -10,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from .serializers import DogPostSerializer, UserSerializer, UserRegisterSerializer, UserLoginSerializer, DogGetSerializer
-from .models import Dogs, User
+from .serializers import DogPostSerializer, ServicesGetSerializer, ServicesPostSerializer, UserSerializer, UserRegisterSerializer, UserLoginSerializer, DogGetSerializer
+from .models import Dogs, ServicesInfo, User
 
 class TestView(APIView):
 
@@ -101,8 +102,8 @@ class DogGetPost(APIView):
             user = Token.objects.get(key=token).user
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        qs = Dogs.objects.filter(userId=user)
-        serializer = DogGetSerializer(qs, many=True)
+        dogs = Dogs.objects.filter(userId=user)
+        serializer = DogGetSerializer(dogs, many=True)
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
@@ -186,3 +187,40 @@ class DogPatchDelete(APIView):
         except:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
         return Response(status=status.HTTP_202_ACCEPTED)
+
+class ServicesPostGet(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        qs = ServicesInfo.objects.all()
+        serializer = ServicesGetSerializer(qs, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, *args, **kwargs):
+        serializer = ServicesPostSerializer(data=request.data)
+        if serializer.is_valid():
+            try:
+                token = request.META.get('HTTP_AUTHORIZATION')
+                token = token[6:]
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            
+            try:
+                user = Token.objects.get(key=token).user
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            try:
+                data = request.data
+                type = data['type']
+                maxSize = data['maxSize']
+                daysOfWeek = data['daysOfWeek']
+                time = data['time']
+                active = data['active']
+                price = data['price']
+                service = ServicesInfo(userId=user, type=type, maxSize=maxSize, daysOfWeek=daysOfWeek, time=time, active=active, price=price)
+                service.save()
+            except:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(data={'type': type, 'maxSize': maxSize, 'daysOfWeek': daysOfWeek, 'time': time, 'active': active, 'price': price}, status=status.HTTP_201_CREATED)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)

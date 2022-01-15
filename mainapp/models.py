@@ -174,7 +174,7 @@ class ServicesInfo(models.Model):
     price = models.IntegerField()
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 class Bookings (models.Model):
     ownerId = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, related_name='owner')

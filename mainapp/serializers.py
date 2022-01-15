@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
-from .models import Dogs, User
+from .models import Dogs, ServicesInfo, User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -36,11 +36,26 @@ class DogGetSerializer(serializers.ModelSerializer):
 
 class DogPostSerializer(serializers.Serializer):
     name = serializers.CharField(label=_('Name'))
-    race = serializers.IntegerField(label=_('Race'))
+    race = serializers.CharField(label=_('Race'))
     birth=serializers.DateField(label=_('Birth'), input_formats=['%Y-%m-%d'])
-    size=serializers.IntegerField(label=_('Size'))
+    size=serializers.CharField(label=_('Size'))
     desc=serializers.CharField(label=_('Description'))
-    gender=serializers.IntegerField(label=_('Gender'))
+    gender=serializers.CharField(label=_('Gender'))
+
+class ServicesGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ServicesInfo
+        fields = (
+            'id', 'userId', 'type', 'maxSize', 'daysOfWeek', 'time', 'active', 'price'
+        )
+
+class ServicesPostSerializer(serializers.Serializer):
+    type=serializers.CharField(label=_('Type'))
+    maxSize=serializers.CharField(label=_('MaxSize'))
+    daysOfWeek=serializers.CharField(label=_('DaysOfWeek'))
+    time=serializers.CharField(label=_('Time'))
+    active=serializers.CharField(label=_('Active'))
+    price=serializers.IntegerField(label=_('Price'))
 
 class MyTokenSerializer(serializers.Serializer):
     email = serializers.CharField(
