@@ -1,14 +1,46 @@
 from django.db import models
 #from django.contrib.gis.db import models
 from django.db.models.fields import CharField, DateField, DateTimeField, TimeField
-from django.contrib.auth import get_user_model
-
-CustomU = get_user_model()
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.utils.translation import gettext_lazy as _
 # Create your models here.
 
-class User(models.Model):
-    email = models.CharField(max_length=45)
-    passHash = models.CharField(max_length=255)
+class UserManager(BaseUserManager):
+    def create_user(self, email, password, accType, **extra_fields):
+        if not email:
+            raise ValueError("must have email")
+        if not password:
+            raise ValueError("must have password")
+        if not accType:
+            raise ValueError("must have type")
+        email = self.normalize_email(email)
+        user = self.model(email=email, accType=type, **extra_fields)
+        user.set_password(password)
+        user.save()
+        return user
+
+    def create_superuser(self, email, password, **extra_fields):
+        '''
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is staff=True'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True'))
+        return self.create_user(email=email, password=password, accType=1, **extra_fields)
+        '''
+        user = self.create_user(email, password, 1, **extra_fields)
+        user.is_admin = True
+        #user.is_staff = True
+        user.is_superuser = True
+        user.save()
+        return user
+'''
+class User2(AbstractUser):
+    username = None
+    email = models.EmailField(max_length=45, unique=True)
 
     class UserType(models.TextChoices):
         OWNER = '1'
@@ -16,18 +48,41 @@ class User(models.Model):
 
     accType = models.CharField(max_length=1, choices=UserType.choices)
 
-    class activeHash(models.TextChoices):
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['email', 'accType']
+
+    def __str__(self):
+        return self.email
+'''
+class User(AbstractBaseUser, PermissionsMixin):
+    email = models.CharField(max_length=45, unique=True)
+    username = None
+    #email = models.EmailField(max_length=45, unique=True)
+    password = models.CharField(max_length=255)
+
+    class UserType(models.TextChoices):
+        OWNER = '1'
+        SITTER = '2'
+
+    accType = models.CharField(max_length=1, choices=UserType.choices)
+
+    class Active(models.TextChoices):
         ACTIVE = '0'
         NONACTIVE = '1'
-
-    active = models.CharField(max_length=1, choices=activeHash.choices)
+    
+    active = models.CharField(max_length=1, choices=Active.choices, default=0)
     #activeHash = models.CharField(max_length=255)
-    #rememberToken = models.CharField(max_length=255, blank=True)
     #rememberAt = DateTimeField(null=True, blank=True)
     createdAt = DateTimeField(auto_now_add=True)
+    is_staff = True
     #updatedAt = DateTimeField()
     #deletedAt = DateTimeField()
     
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['password']
+
+    objects = UserManager()
+
     def __str__(self):
         return self.email
 
@@ -158,13 +213,3 @@ class MessagesUsers(models.Model):
     status = models.CharField(max_length=1, choices=Status.choices)
     createdAt = DateTimeField(auto_now_add=True)
 
-#test
-
-class Post(models.Model):
-    title = models.CharField(max_length=100)
-    description = models.TextField()
-    timestamp = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(CustomU, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.title

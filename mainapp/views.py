@@ -1,15 +1,20 @@
 from django.shortcuts import render
 from django.http import HttpResponse, request
-from rest_framework import serializers
+from rest_framework import serializers, status
 # Create your views here.
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authtoken.models import Token
 
-from .serializers import UserSerializer, PostSerializer
-from .models import User, Post
+from .serializers import UserSerializer, UserRegisterSerializer, UserLoginSerializer
+from .models import User
 
 class TestView(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
     def get(self, request, *args, **kwargs):
         qs = User.objects.all()
         serializer = UserSerializer(qs, many=True)
@@ -21,3 +26,62 @@ class TestView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors)
+
+class RegisterUserView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserRegisterSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(status=status.HTTP_201_CREATED)
+        return Response(serializer.errors)
+
+class LoginUserView(APIView):
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserLoginSerializer(data=request.data)
+        if serializer.is_valid():
+            data = request.data
+                       
+            try:
+                email = data['email']
+                password = data['password']
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            try:
+                user = User.objects.get(email=email, password=password)
+            except:
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            try:
+                user_token = user.auth_token.key
+            except:
+                user_token = Token.objects.create(user=user)
+                user_token = user.auth_token.key
+            return Response(data = user_token, status=status.HTTP_200_OK)
+        return Response(serializer.errors)
+
+class GetProfile(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def get(self, request, *args, **kwargs):
+        try:
+            token = request.META.get('HTTP_AUTHORIZATION')
+            token = token[6:]
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        
+        
+        try:
+            user = Token.objects.get(key=token).user
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+            
+        email = user.email
+        password = user.password
+        accType = user.accType
+        active = user.active
+        createdAt = user.createdAt        
+        
+        return Response(data={'email': email, 'password': password, 'accType': accType, 'active': active, 'createdAt': createdAt}, status=status.HTTP_200_OK)
+            

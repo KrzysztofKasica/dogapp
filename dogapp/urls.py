@@ -16,10 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import mainapp
-from mainapp.views import TestView
+from mainapp.views import TestView, RegisterUserView, LoginUserView, GetProfile
+from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mainapp/', include('mainapp.urls')),
-    path('', TestView.as_view(), name='test')
+    path('', TestView.as_view(), name='test'),
+    path('api/token', obtain_auth_token, name='obtain-token'),
+    path('auth/register', RegisterUserView.as_view(), name='register'),
+    path('auth', LoginUserView.as_view(), name='login'),
+    path('profile', GetProfile.as_view(), name="profile")
 ]
