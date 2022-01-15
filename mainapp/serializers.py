@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.utils.translation import gettext_lazy as _
 
-from .models import User
+from .models import Dogs, User
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +27,20 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class DogGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Dogs
+        fields = (
+            'id', 'userId', 'name', 'race', 'birth', 'size', 'desc', 'gender', 'createdAt'
+        )
+
+class DogPostSerializer(serializers.Serializer):
+    name = serializers.CharField(label=_('Name'))
+    race = serializers.IntegerField(label=_('Race'))
+    birth=serializers.DateField(label=_('Birth'), input_formats=['%Y-%m-%d'])
+    size=serializers.IntegerField(label=_('Size'))
+    desc=serializers.CharField(label=_('Description'))
+    gender=serializers.IntegerField(label=_('Gender'))
 
 class MyTokenSerializer(serializers.Serializer):
     email = serializers.CharField(

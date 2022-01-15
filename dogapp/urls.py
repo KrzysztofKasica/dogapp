@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import mainapp
-from mainapp.views import TestView, RegisterUserView, LoginUserView, GetProfile
+from mainapp.views import DogGetPost, DogPatchDelete, TestView, RegisterUserView, LoginUserView, GetProfile
 from rest_framework.authtoken.views import obtain_auth_token
 
 urlpatterns = [
@@ -26,5 +26,7 @@ urlpatterns = [
     path('api/token', obtain_auth_token, name='obtain-token'),
     path('auth/register', RegisterUserView.as_view(), name='register'),
     path('auth', LoginUserView.as_view(), name='login'),
-    path('profile', GetProfile.as_view(), name="profile")
+    path('profile', GetProfile.as_view(), name="profile"),
+    path('dogs', DogGetPost.as_view(), name='getpostdogs'),
+    path('dogs/<id>', DogPatchDelete.as_view(), name='patchdeletedog')
 ]
