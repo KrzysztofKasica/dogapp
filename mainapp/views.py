@@ -60,7 +60,7 @@ class LoginUserView(APIView):
             except:
                 user_token = Token.objects.create(user=user)
                 user_token = user.auth_token.key
-            return Response(data = user_token, status=status.HTTP_200_OK)
+            return Response(data = {'token': user_token}, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 class GetProfile(APIView):
@@ -135,9 +135,20 @@ class DogGetPost(APIView):
             return Response(data={'name': name,  'race': race, 'birth': birth, 'size': size, 'desc': desc, 'gender': gender}, status=status.HTTP_201_CREATED)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-class DogPatchDelete(APIView):
+class DogGetPatchDelete(APIView):
 
     permission_classes = (IsAuthenticated, )
+
+    def get(self, request, id, *args, **kwargs):
+        try:
+            token = request.META.get('HTTP_AUTHORIZATION')
+            token = token[6:]
+            user = Token.objects.get(key=token).user
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        dog = Dogs.objects.filter(userId = user, id = id)
+        serializer = DogGetSerializer(dog, many=True)
+        return Response(serializer.data)
 
     def patch(self, request, id, *args, **kwargs):
         serializer = DogPostSerializer(data=request.data)

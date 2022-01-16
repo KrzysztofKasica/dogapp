@@ -135,10 +135,10 @@ class ServicesInfo(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
 
     class Type(models.TextChoices):
-        WALKING = 'WK'
+        WALKING = 'WK', _("WALKING")
         DAY_CARE = 'DC'
     
-    type = models.CharField(max_length=2, choices=Type.choices)
+    type = models.CharField(max_length = 2, choices=Type.choices)
 
     class MaxSize(models.TextChoices):
         FIFTEEN = '15'

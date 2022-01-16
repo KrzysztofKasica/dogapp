@@ -45,9 +45,10 @@ class DogPostSerializer(serializers.Serializer):
 class ServicesGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServicesInfo
-        fields = (
-            'id', 'userId', 'type', 'maxSize', 'daysOfWeek', 'time', 'active', 'price'
-        )
+        fields = '__all__'
+        #fields = (
+        #    'id', 'userId', 'type', 'maxSize', 'daysOfWeek', 'time', 'active', 'price'
+        #)
 
 class ServicesPostSerializer(serializers.Serializer):
     type=serializers.CharField(label=_('Type'))
