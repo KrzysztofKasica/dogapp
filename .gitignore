@@ -6,3 +6,4 @@ github_settings.py
 *.pyc
 *migrations
 *templates
+/venv/
