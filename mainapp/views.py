@@ -22,7 +22,7 @@ class TestView(APIView):
         qs = User.objects.all()
         serializer = UserSerializer(qs, many=True)
         return Response(serializer.data)
-        
+
     def post(self, request, *args, **kwargs):
         serializer = UserSerializer(data=request.data)
         if  serializer.is_valid():
@@ -45,7 +45,7 @@ class LoginUserView(APIView):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             data = request.data
-                       
+
             try:
                 email = data['email']
                 password = data['password']
@@ -60,7 +60,7 @@ class LoginUserView(APIView):
             except:
                 user_token = Token.objects.create(user=user)
                 user_token = user.auth_token.key
-            return Response(data = {'token': user_token}, status=status.HTTP_200_OK)
+            return Response(data = {'access_token': user_token}, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 class GetProfile(APIView):
@@ -73,21 +73,21 @@ class GetProfile(APIView):
             token = token[6:]
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
-        
+
+
         try:
             user = Token.objects.get(key=token).user
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-            
+
         email = user.email
         password = user.password
         accType = user.accType
         active = user.active
-        createdAt = user.createdAt        
-        
+        createdAt = user.createdAt
+
         return Response(data={'email': email, 'password': password, 'accType': accType, 'active': active, 'createdAt': createdAt}, status=status.HTTP_200_OK)
-    
+
 class DogGetPost(APIView):
 
     permission_classes = (IsAuthenticated, )
@@ -107,7 +107,7 @@ class DogGetPost(APIView):
         return Response(serializer.data)
 
     def post(self, request, *args, **kwargs):
-        
+
         serializer = DogPostSerializer(data=request.data)
         if serializer.is_valid():
             try:
@@ -115,7 +115,7 @@ class DogGetPost(APIView):
                 token = token[6:]
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            
+
             try:
                 user = Token.objects.get(key=token).user
             except:
@@ -158,7 +158,7 @@ class DogGetPatchDelete(APIView):
                 token = token[6:]
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            
+
             try:
                 user = Token.objects.get(key=token).user
             except:
@@ -181,14 +181,14 @@ class DogGetPatchDelete(APIView):
                 return Response(statua=status.HTTP_400_BAD_REQUEST)
             return Response(status=status.HTTP_202_ACCEPTED)
         return Response(status=status.HTTP_400_BAD_REQUEST)
-    
+
     def delete(self, request, id, *args, **kwargs):
         try:
             token = request.META.get('HTTP_AUTHORIZATION')
             token = token[6:]
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
         try:
             user = Token.objects.get(key=token).user
         except:
@@ -216,7 +216,7 @@ class ServicesPostGet(APIView):
                 token = token[6:]
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            
+
             try:
                 user = Token.objects.get(key=token).user
             except:
