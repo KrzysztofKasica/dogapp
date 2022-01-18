@@ -5,11 +5,12 @@ from rest_framework import serializers, status
 from rest_framework import response
 import datetime
 # Create your views here.
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
+
 
 from .serializers import DogPostSerializer, ServicesGetSerializer, ServicesPostSerializer, UserSerializer, UserRegisterSerializer, UserLoginSerializer, DogGetSerializer
 from .models import Dogs, ServicesInfo, User
@@ -31,7 +32,6 @@ class TestView(APIView):
         return Response(serializer.errors)
 
 class RegisterUserView(APIView):
-
     def post(self, request, *args, **kwargs):
         serializer = UserRegisterSerializer(data=request.data)
         if serializer.is_valid():
@@ -40,8 +40,15 @@ class RegisterUserView(APIView):
         return Response(serializer.errors)
 
 class LoginUserView(APIView):
-
     def post(self, request, *args, **kwargs):
+    ## GENERATE TOKENS FOR USER
+        def get_tokens_for_user(user):
+            refresh = RefreshToken.for_user(user)
+            return {
+                        'refresh_token': str(refresh),
+                        'access_token': str(refresh.access_token),
+            }
+
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             data = request.data
@@ -56,37 +63,35 @@ class LoginUserView(APIView):
             except:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
             try:
-                user_token = user.auth_token.key
+                user_token = get_tokens_for_user(user)
             except:
-                user_token = Token.objects.create(user=user)
-                user_token = user.auth_token.key
-            return Response(data = {'access_token': user_token}, status=status.HTTP_200_OK)
+                user_token = get_tokens_for_user(user)
+                #user_token = user.auth_token.key
+            return Response(data = user_token, status=status.HTTP_200_OK)
         return Response(serializer.errors)
 
 class GetProfile(APIView):
-
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        try:
-            token = request.META.get('HTTP_AUTHORIZATION')
-            token = token[6:]
-        except:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        ##try:
+          ##  token = request.META.get('HTTP_AUTHORIZATION')
+            ##token = token[6:]
+        ##except:
+          ##  return Response(status=status.HTTP_400_BAD_REQUEST)
 
-
         try:
-            user = Token.objects.get(key=token).user
+            user = self.request.user
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
 
         email = user.email
         password = user.password
-        accType = user.accType
-        active = user.active
+        type = user.type
+        active = user.is_active
         createdAt = user.createdAt
 
-        return Response(data={'email': email, 'password': password, 'accType': accType, 'active': active, 'createdAt': createdAt}, status=status.HTTP_200_OK)
+        return Response(data={'email': email, 'password': password, 'type': type, 'active': active, 'createdAt': createdAt}, status=status.HTTP_200_OK)
 
 class DogGetPost(APIView):
 

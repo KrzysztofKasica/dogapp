@@ -18,12 +18,14 @@ from django.urls import path, include
 import mainapp
 from mainapp.views import DogGetPost, DogGetPatchDelete, ServicesPostGet, TestView, RegisterUserView, LoginUserView, GetProfile
 from rest_framework.authtoken.views import obtain_auth_token
+from rest_framework_simplejwt import views as jwt_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mainapp/', include('mainapp.urls')),
     path('', TestView.as_view(), name='test'),
-    path('api/token', obtain_auth_token, name='obtain-token'),
+    #path('api/token', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('auth/refresh', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
     path('auth/register', RegisterUserView.as_view(), name='register'),
     path('auth', LoginUserView.as_view(), name='login'),
     path('profile', GetProfile.as_view(), name="profile"),

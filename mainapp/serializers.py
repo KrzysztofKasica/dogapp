@@ -8,14 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email','passHash','accType','active',
+            'email','passHash','type','active',
         )
 
 class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'password', 'accType'
+            'email', 'password', 'type'
         )
 
 class UserLoginSerializer(serializers.Serializer):
@@ -97,6 +97,6 @@ class MyTokenSerializer(serializers.Serializer):
 
 #class ServicesSerializer(serializers.MidelSerializer):
 #    class Meta:
-#s=s        model = 
+#s=s        model =
 
 #test
