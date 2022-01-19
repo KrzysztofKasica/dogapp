@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(superuser) : fix create super user">
+    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(type,email in token) : add type, email to token">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dogapp/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/dogapp/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -24,9 +28,7 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/mainapp/serializers.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/dogapp/settings.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mainapp/migrations/__init__.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/dogapp/urls.py" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/mainapp/migrations/0001_initial.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mainapp/views.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mainapp/urls.py" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/mainapp/models.py" root0="FORCE_HIGHLIGHTING" />
@@ -62,7 +64,7 @@
       <workItem from="1642433089112" duration="991000" />
       <workItem from="1642436171155" duration="1196000" />
       <workItem from="1642443660484" duration="17000" />
-      <workItem from="1642448728976" duration="29760000" />
+      <workItem from="1642448728976" duration="41010000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1642365716903</created>
@@ -204,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642604248708</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="fix(type,email in token) : add type, email to token">
+      <created>1642607352606</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1642607352606</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -246,6 +255,7 @@
     <MESSAGE value="fix(static) : change BASE_DIR  folder" />
     <MESSAGE value="fix(user model) : change user_id type model" />
     <MESSAGE value="fix(superuser) : fix create super user" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(superuser) : fix create super user" />
+    <MESSAGE value="fix(type,email in token) : add type, email to token" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(type,email in token) : add type, email to token" />
   </component>
 </project>

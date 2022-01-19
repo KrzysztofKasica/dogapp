@@ -1,5 +1,7 @@
 from django.db import models
+
 #from django.contrib.gis.db import models
+import uuid
 from django.db.models.fields import CharField, DateField, DateTimeField, TimeField
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
@@ -57,6 +59,7 @@ class User2(AbstractUser):
 '''
 class User(AbstractBaseUser, PermissionsMixin):
     user_id = models.BigAutoField(primary_key=True,unique=True)
+    uid = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
     email = models.CharField(max_length=45, unique=True)
     username = None
     #email = models.EmailField(max_length=45, unique=True)
@@ -75,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.CharField(max_length=1, choices=Active.choices, default=1)
     #activeHash = models.CharField(max_length=255)
     #rememberAt = DateTimeField(null=True, blank=True)
-    createdAt = DateTimeField(auto_now_add=True)
+    created_at = DateTimeField(auto_now_add=True)
     is_staff = True
     #updatedAt = DateTimeField()
     #deletedAt = DateTimeField()
@@ -108,7 +111,7 @@ class Dogs(models.Model):
 
     size = models.CharField(max_length=2, choices=Size.choices)
     desc = models.CharField(max_length=255)
-    createdAt = DateTimeField(auto_now_add=True)
+    created_at = DateTimeField(auto_now_add=True)
 
     class Gender(models.TextChoices):
         MALE = '0'
@@ -121,17 +124,17 @@ class Dogs(models.Model):
 
 class AdditionalInformation(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
-    firstName = models.CharField(max_length=45)
+    firstname = models.CharField(max_length=45)
     surname = models.CharField(max_length=45)
-    #place = models.PointField()
+   # place = models.PointField()
     phone = models.CharField(max_length=35)
     desc = models.CharField(max_length=255)
     photoURL = models.CharField(max_length=255)
-    createdAt = DateTimeField(auto_now_add=True)
-    updatedAt = DateTimeField
+    created_at = DateTimeField(auto_now_add=True)
+    updated_at = DateTimeField
 
     def __str__(self):
-        return self.name
+        return self.firstname
 
 class ServicesInfo(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
@@ -196,8 +199,8 @@ class Bookings (models.Model):
 
     status = models.CharField(max_length=1, choices=Status.choices)
     cancelReaseon = models.CharField(max_length=255, blank=True)
-    createdAt = DateTimeField()
-    updatedAt = DateTimeField
+    created_at = DateTimeField()
+    updated_at = DateTimeField
 
     def __str__(self):
         return self.name
@@ -213,5 +216,5 @@ class MessagesUsers(models.Model):
         STATUSONE = '1'
 
     status = models.CharField(max_length=1, choices=Status.choices)
-    createdAt = DateTimeField(auto_now_add=True)
+    created_at = DateTimeField(auto_now_add=True)
 
