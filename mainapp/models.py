@@ -56,7 +56,7 @@ class User2(AbstractUser):
         return self.email
 '''
 class User(AbstractBaseUser, PermissionsMixin):
-    user_id = models.BigAutoField(primary_key=True)
+    user_id = models.BigAutoField(primary_key=True,unique=true,default=1)
     email = models.CharField(max_length=45, unique=True)
     username = None
     #email = models.EmailField(max_length=45, unique=True)
