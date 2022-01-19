@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(jwttoken) : change authentication to JWT token, add user_id and change accType to &quot;type&quot;">
+    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(static) : change static root folder">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dogapp/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dogapp/settings.py" afterDir="false" />
     </list>
@@ -62,7 +62,7 @@
       <workItem from="1642433089112" duration="991000" />
       <workItem from="1642436171155" duration="1196000" />
       <workItem from="1642443660484" duration="17000" />
-      <workItem from="1642448728976" duration="24740000" />
+      <workItem from="1642448728976" duration="25264000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1642365716903</created>
@@ -113,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1642597785982</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="fix(static) : change static root folder">
+      <created>1642601521983</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1642601521983</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -150,6 +157,7 @@
     <MESSAGE value="charm(requirements) : add requirements.txt" />
     <MESSAGE value="charm(readme) : change README.md" />
     <MESSAGE value="fix(jwttoken) : change authentication to JWT token, add user_id and change accType to &quot;type&quot;" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(jwttoken) : change authentication to JWT token, add user_id and change accType to &quot;type&quot;" />
+    <MESSAGE value="fix(static) : change static root folder" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(static) : change static root folder" />
   </component>
 </project>
