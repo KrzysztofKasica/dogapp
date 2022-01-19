@@ -81,7 +81,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #deletedAt = DateTimeField()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['password']
+    REQUIRED_FIELDS = ['password','type']
 
     objects = UserManager()
 
