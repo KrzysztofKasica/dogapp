@@ -43,6 +43,9 @@ class LoginUserView(APIView):
     ## GENERATE TOKENS FOR USER
         def get_tokens_for_user(user):
             refresh = RefreshToken.for_user(user)
+            refresh['type'] = user.type
+            refresh['email'] = user.email
+
             return {
                         'refresh_token': str(refresh),
                         'access_token': str(refresh.access_token),
@@ -239,3 +242,5 @@ class ServicesPostGet(APIView):
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
             return Response(data={'type': type, 'maxSize': maxSize, 'daysOfWeek': daysOfWeek, 'time': time, 'active': active, 'price': price}, status=status.HTTP_201_CREATED)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+

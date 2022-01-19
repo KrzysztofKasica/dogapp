@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(static) : change staticfiles_dirs  folder">
-      <change beforePath="$PROJECT_DIR$/dogapp/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/dogapp/settings.py" afterDir="false" />
+    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(superuser) : fix create super user">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -61,7 +62,7 @@
       <workItem from="1642433089112" duration="991000" />
       <workItem from="1642436171155" duration="1196000" />
       <workItem from="1642443660484" duration="17000" />
-      <workItem from="1642448728976" duration="25349000" />
+      <workItem from="1642448728976" duration="29760000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1642365716903</created>
@@ -126,7 +127,84 @@
       <option name="project" value="LOCAL" />
       <updated>1642602033917</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="fix(static) : change BASE_DIR  folder">
+      <created>1642602121898</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1642602121898</updated>
+    </task>
+    <task id="LOCAL-00011" summary="fix(static) : change BASE_DIR  folder">
+      <created>1642602258709</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1642602258709</updated>
+    </task>
+    <task id="LOCAL-00012" summary="fix(static) : change BASE_DIR  folder">
+      <created>1642602325060</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1642602325060</updated>
+    </task>
+    <task id="LOCAL-00013" summary="fix(static) : change BASE_DIR  folder">
+      <created>1642602416579</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1642602416579</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fix(static) : change BASE_DIR  folder">
+      <created>1642602961524</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1642602961524</updated>
+    </task>
+    <task id="LOCAL-00015" summary="fix(user model) : change user_id type model">
+      <created>1642603265917</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1642603265917</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix(user model) : change user_id type model">
+      <created>1642603341156</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1642603341156</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix(superuser) : fix create super user">
+      <created>1642604143950</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1642604143950</updated>
+    </task>
+    <task id="LOCAL-00018" summary="fix(superuser) : fix create super user">
+      <created>1642604162088</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1642604162088</updated>
+    </task>
+    <task id="LOCAL-00019" summary="fix(superuser) : fix create super user">
+      <created>1642604202357</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1642604202357</updated>
+    </task>
+    <task id="LOCAL-00020" summary="fix(superuser) : fix create super user">
+      <created>1642604248708</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1642604248708</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -143,7 +221,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
@@ -165,6 +243,9 @@
     <MESSAGE value="fix(jwttoken) : change authentication to JWT token, add user_id and change accType to &quot;type&quot;" />
     <MESSAGE value="fix(static) : change static root folder" />
     <MESSAGE value="fix(static) : change staticfiles_dirs  folder" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(static) : change staticfiles_dirs  folder" />
+    <MESSAGE value="fix(static) : change BASE_DIR  folder" />
+    <MESSAGE value="fix(user model) : change user_id type model" />
+    <MESSAGE value="fix(superuser) : fix create super user" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(superuser) : fix create super user" />
   </component>
 </project>
