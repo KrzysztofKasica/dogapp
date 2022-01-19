@@ -32,7 +32,8 @@ class UserManager(BaseUserManager):
             raise ValueError(_('Superuser must have is_superuser=True'))
         return self.create_user(email=email, password=password, accType=1, **extra_fields)
         '''
-        user = self.create_user(email, password, 1, **extra_fields)
+        user = self.model(email=email, type=type, **extra_fields)
+        user.set_password(password)
         user.is_admin = True
         #user.is_staff = True
         user.is_superuser = True
@@ -81,7 +82,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     #deletedAt = DateTimeField()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['password','type']
+    REQUIRED_FIELDS = ['password']
 
     objects = UserManager()
 
