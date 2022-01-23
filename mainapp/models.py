@@ -78,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.CharField(max_length=1, choices=Active.choices, default=1)
     #activeHash = models.CharField(max_length=255)
     #rememberAt = DateTimeField(null=True, blank=True)
-    created_at = DateTimeField(auto_now_add=True)
+    createdAt = DateTimeField(auto_now_add=True)
     is_staff = True
     #updatedAt = DateTimeField()
     #deletedAt = DateTimeField()
@@ -95,29 +95,19 @@ class Dogs(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
     name = models.CharField(max_length=45)
 
-    class Race(models.TextChoices):
-        LABRADOR = '1'
-        KUNDEL = '2'
-        # rasy itd...
 
-    race = models.CharField(max_length=2, choices=Race.choices)
+    race = models.CharField(max_length=45)
     birth = DateField()
 
-    class Size(models.TextChoices):
-        FIFTEEN = '15'
-        TWENTY = '20'
-        TWENTYFIVE = '25'
-        THIRTY = '30'
-
-    size = models.CharField(max_length=2, choices=Size.choices)
+    size = models.CharField(max_length=3)
     desc = models.CharField(max_length=255)
-    created_at = DateTimeField(auto_now_add=True)
+    createdAt = DateTimeField(auto_now_add=True)
 
     class Gender(models.TextChoices):
-        MALE = '0'
-        FEMALE = '1'
+        MALE = 'pies'
+        FEMALE = 'suka'
 
-    gender = models.CharField(max_length=1, choices=Gender.choices)
+    gender = models.CharField(max_length=4, choices=Gender.choices)
 
     def __str__(self):
         return self.name
@@ -130,7 +120,7 @@ class AdditionalInformation(models.Model):
     phone = models.CharField(max_length=35)
     desc = models.CharField(max_length=255)
     photoURL = models.CharField(max_length=255)
-    created_at = DateTimeField(auto_now_add=True)
+    createdAt = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField
 
     def __str__(self):
@@ -199,7 +189,7 @@ class Bookings (models.Model):
 
     status = models.CharField(max_length=1, choices=Status.choices)
     cancelReaseon = models.CharField(max_length=255, blank=True)
-    created_at = DateTimeField()
+    createdAt = DateTimeField()
     updated_at = DateTimeField
 
     def __str__(self):
@@ -216,5 +206,5 @@ class MessagesUsers(models.Model):
         STATUSONE = '1'
 
     status = models.CharField(max_length=1, choices=Status.choices)
-    created_at = DateTimeField(auto_now_add=True)
+    createdAt = DateTimeField(auto_now_add=True)
 

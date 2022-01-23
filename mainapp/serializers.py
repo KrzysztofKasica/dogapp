@@ -15,7 +15,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = (
-            'email', 'created_at', 'type', 'uid'
+            'email', 'createdAt', 'type', 'uid'
         )
 
 class UserLoginSerializer(serializers.Serializer):
@@ -36,7 +36,7 @@ class DogGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dogs
         fields = (
-            'id', 'userId', 'name', 'race', 'birth', 'size', 'desc', 'gender', 'createdAt'
+            'id','name', 'race', 'birth', 'size', 'desc', 'gender', 'createdAt'
         )
 
 class DogPostSerializer(serializers.Serializer):

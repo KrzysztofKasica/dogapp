@@ -146,7 +146,7 @@ class DogGetPost(APIView):
         if serializer.is_valid():
 
             try:
-                user = Token.objects.get(key=token).user
+               user = request.user
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             try:
@@ -198,7 +198,7 @@ class DogGetPatchDelete(APIView):
                 dog.save()
             except:
                 return Response(statua=status.HTTP_400_BAD_REQUEST)
-            return Response(status=status.HTTP_202_ACCEPTED)
+            return Response(data={'id': dog.id,'name': dog.name,  'race': dog.race, 'birth': dog.birth, 'size': dog.size, 'desc': dog.desc, 'gender': dog.gender}, status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, id, *args, **kwargs):
