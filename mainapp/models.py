@@ -6,6 +6,7 @@ from django.db.models.fields import CharField, DateField, DateTimeField, TimeFie
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 # Create your models here.
 
@@ -19,6 +20,7 @@ class UserManager(BaseUserManager):
             raise ValueError("must have type")
         email = self.normalize_email(email)
         user = self.model(email=email, type=type, **extra_fields)
+        password = password.pop('password', None)
         user.set_password(password)
         user.save()
         return user
@@ -64,7 +66,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), unique=True)
     username = None
     #email = models.EmailField(max_length=45, unique=True)
-    password = models.CharField(max_length=100)
+    password = models.CharField(max_length=255)
 
     class UserType(models.TextChoices):
         OWNER = '1'

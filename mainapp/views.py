@@ -7,6 +7,8 @@ import datetime
 # Create your views here.
 from rest_framework_simplejwt.tokens import RefreshToken
 
+from django.contrib.auth import authenticate
+
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -79,14 +81,13 @@ class LoginUserView(APIView):
         serializer = UserLoginSerializer(data=request.data)
         if serializer.is_valid():
             data = request.data
-
             try:
-                email = data['email']
-                password = data['password']
+                email = request.data.get('email', None)
+                password = request.data.get('password', None)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             try:
-                user = User.objects.get(email=email, password=password)
+                user = User.objects.get(email=email)
             except:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
             try:

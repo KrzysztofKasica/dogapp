@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
+from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
 
 from .models import Dogs, ServicesInfo, User,AdditionalInformation
@@ -18,6 +19,14 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'email', 'password', 'createdAt', 'type', 'uid'
         )
         extra_kwargs = {'password': {'write_only':True}}
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        instance = self.Meta.model(**validated_data)
+        if password is not None:
+            instance.set_password(password)
+        instance.save()
+        return instance
 
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.CharField(label=_("Email"))
