@@ -3,8 +3,10 @@ from django.db import models
 #from django.contrib.gis.db import models
 import uuid
 from django.db.models.fields import CharField, DateField, DateTimeField, TimeField
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import AbstractUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.password_validation import validate_password
+from rest_framework import serializers
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -18,7 +20,6 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, type=type, **extra_fields)
         user.set_password(password)
-
         user.save()
         return user
 
@@ -57,13 +58,13 @@ class User2(AbstractUser):
     def __str__(self):
         return self.email
 '''
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractUser, PermissionsMixin):
     user_id = models.BigAutoField(primary_key=True,unique=True)
     uid = models.CharField(max_length=100, blank=True, unique=True, default=uuid.uuid4)
-    email = models.CharField(max_length=45, unique=True)
+    email = models.EmailField(_('email address'), unique=True)
     username = None
     #email = models.EmailField(max_length=45, unique=True)
-    password = models.CharField(max_length=255)
+    password = models.CharField(max_length=100)
 
     class UserType(models.TextChoices):
         OWNER = '1'

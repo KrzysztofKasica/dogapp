@@ -15,7 +15,6 @@ from .serializers import DogPostSerializer, ServicesGetSerializer, ServicesPostS
 from .models import Dogs, ServicesInfo, User, AdditionalInformation
 
 class TestView(APIView):
-
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
