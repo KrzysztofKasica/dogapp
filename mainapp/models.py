@@ -20,7 +20,7 @@ class UserManager(BaseUserManager):
             raise ValueError("must have type")
         email = self.normalize_email(email)
         user = self.model(email=email, type=type, **extra_fields)
-        password = password.pop('password', None)
+
         user.set_password(password)
         user.save()
         return user
