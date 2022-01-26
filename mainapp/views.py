@@ -161,7 +161,7 @@ class DogGetPost(APIView):
                 dog.save()
             except:
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
-            return Response(data={'name': name,  'race': race, 'birth': birth, 'size': size, 'desc': desc, 'gender': gender}, status=status.HTTP_201_CREATED)
+            return Response(data={'name': name, 'id':dog.id,  'race': race, 'birth': birth, 'size': size, 'desc': desc, 'gender': gender}, status=status.HTTP_201_CREATED)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class DogGetPatchDelete(APIView):

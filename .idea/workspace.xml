@@ -4,7 +4,6 @@
     <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(register) : fix register models and serializers -- bug: unable to register account">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mainapp/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/serializers.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -64,7 +63,8 @@
       <workItem from="1642443660484" duration="17000" />
       <workItem from="1642448728976" duration="41795000" />
       <workItem from="1642867460288" duration="12497000" />
-      <workItem from="1643013308227" duration="4356000" />
+      <workItem from="1643013308227" duration="5948000" />
+      <workItem from="1643121869306" duration="1524000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1642365716903</created>
@@ -241,7 +241,21 @@
       <option name="project" value="LOCAL" />
       <updated>1643016121339</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="fix(register) : fix register models and serializers -- bug: unable to register account">
+      <created>1643017743706</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1643017743706</updated>
+    </task>
+    <task id="LOCAL-00027" summary="fix(register) : fix register models and serializers -- bug: unable to register account">
+      <created>1643018082828</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1643018082828</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
