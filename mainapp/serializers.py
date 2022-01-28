@@ -37,6 +37,15 @@ class ProfileSerializer(serializers.ModelSerializer):
         model = User
         fields = '__all__'
 
+class ProfilePostSerializer(serializers.Serializer):
+       firstname = serializers.CharField(label=_("Firstname"))
+       surname = serializers.CharField(label=_("Surname"))
+       phone = serializers.CharField(label=_("Phone"))
+       desc = serializers.CharField(label=_("Desc"))
+       lat = serializers.CharField(label=_("Latitude"))
+       lon = serializers.CharField(label=_("Londitude"))
+       city = serializers.CharField(label=_("City"))
+
 class AdditionalInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = AdditionalInformation
@@ -60,10 +69,10 @@ class DogPostSerializer(serializers.Serializer):
 class ServicesGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServicesInfo
-        fields = '__all__'
-        #fields = (
-        #    'id', 'userId', 'type', 'maxSize', 'daysOfWeek', 'time', 'active', 'price'
-        #)
+        #fields = '__all__'
+        fields = (
+            'type', 'maxSize', 'daysOfWeek', 'time', 'active', 'price'
+        )
 
 class ServicesPostSerializer(serializers.Serializer):
     type=serializers.CharField(label=_('Type'))

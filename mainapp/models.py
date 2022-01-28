@@ -2,11 +2,15 @@ from django.db import models
 
 #from django.contrib.gis.db import models
 import uuid
-from django.db.models.fields import CharField, DateField, DateTimeField, TimeField
+from django.db.models.fields import CharField, DateField, DateTimeField, TimeField, BinaryField
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
+from location_field.forms.plain import PlainLocationField
+
 from rest_framework import serializers
 # Create your models here.
 
@@ -90,6 +94,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
+
+
     def __str__(self):
         return self.email
 
@@ -118,10 +124,12 @@ class AdditionalInformation(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
     firstname = models.CharField(max_length=45)
     surname = models.CharField(max_length=45)
-   # place = models.PointField()
-    phone = models.CharField(max_length=35)
-    desc = models.CharField(max_length=255)
-    photoURL = models.CharField(max_length=255)
+    lat = models.DecimalField(max_digits=19, decimal_places=16, null=True)
+    lon = models.DecimalField(max_digits=19, decimal_places=16, null=True)
+    city= models.CharField(max_length=50, null=True)
+    phone = models.CharField(max_length=35, null=True)
+    desc = models.CharField(max_length=255, null=True)
+    photoURL = models.CharField(max_length=255, null=True)
     createdAt = DateTimeField(auto_now_add=True)
     updated_at = DateTimeField
 
@@ -132,8 +140,8 @@ class ServicesInfo(models.Model):
     userId = models.ForeignKey('User', on_delete=models.CASCADE)
 
     class Type(models.TextChoices):
-        WALKING = 'WK', _("WALKING")
-        DAY_CARE = 'DC'
+        WALKING = 'WK', _("Walking")
+        DAY_CARE = 'DC', _("Day care")
 
     type = models.CharField(max_length = 2, choices=Type.choices)
 
@@ -143,10 +151,10 @@ class ServicesInfo(models.Model):
         TWENTYFIVE = '25'
         THIRTY = '30'
 
-    maxSize = models.CharField(max_length=2, choices=MaxSize.choices)
+    maxSize = models.IntegerField(blank=True, null=True)
 
     class DaysOfWeek(models.TextChoices):
-        MONDAY = '1'
+        MONDAY = '1' , _("Monday")
         TUESDAY = '2'
         WENDESDAY = '3'
         THURSDAY = '4'
@@ -154,21 +162,21 @@ class ServicesInfo(models.Model):
         SATURDAY = '6'
         SUNDAY = '7'
 
-    daysOfWeek = models.CharField(max_length=1, choices=DaysOfWeek.choices)
+    daysOfWeek = models.IntegerField(blank=True, null=True)
 
     class Time(models.TextChoices):
         MORNING = '1'
         AFTERNOON = '2'
         EVENING = '3'
 
-    time = models.CharField(max_length=1, choices=Time.choices)
+    time = models.IntegerField(blank=True, null=True)
 
     class Active(models.TextChoices):
-        ACTIVE = '0'
-        NONACTIVE = '1'
+        ACTIVE = '1'
+        NONACTIVE = '0'
 
     active = models.CharField(max_length=1, choices=Active.choices)
-    price = models.IntegerField()
+    price = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return str(self.id)
