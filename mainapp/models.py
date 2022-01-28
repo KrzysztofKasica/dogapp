@@ -9,7 +9,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
 from django.contrib.auth.hashers import make_password
-from location_field.forms.plain import PlainLocationField
+
 
 from rest_framework import serializers
 # Create your models here.
