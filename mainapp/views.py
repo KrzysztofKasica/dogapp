@@ -2,7 +2,7 @@ from sys import maxsize
 from django.shortcuts import render
 from django.http import HttpResponse, request
 from rest_framework import serializers, status
-
+from django.db.models import Q
 from rest_framework import response
 import datetime
 # Create your views here.
@@ -14,8 +14,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import DogPostSerializer, ServicesGetSerializer, ServicesPostSerializer, UserSerializer, UserRegisterSerializer, UserLoginSerializer, DogGetSerializer, AdditionalInformationSerializer, ProfilePostSerializer
-from .models import Dogs, ServicesInfo, User, AdditionalInformation
+from .serializers import BookingsGetSerializer, BookingsPostSerializer, DogPostSerializer, ServicesGetSerializer, ServicesPostSerializer, UserSerializer, UserRegisterSerializer, UserLoginSerializer, DogGetSerializer, AdditionalInformationSerializer, ProfilePostSerializer
+from .models import Bookings, Dogs, ServicesInfo, User, AdditionalInformation
 
 class TestView(APIView):
     permission_classes = (IsAuthenticated, )
@@ -275,4 +275,39 @@ class ServicesPostGet(APIView):
             return Response(data={'type': service.type, 'maxSize': service.maxSize, 'daysOfWeek': service.daysOfWeek, 'time': service.time, 'active': service.active, 'price': service.price}, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+class BookingsPost(APIView):
 
+   permission_classes = (IsAuthenticated, )
+
+   def get(self, request, *args, **kwargs):
+        try:
+            user=request.user
+            data = Bookings.objects.filter(Q(sitterId=user) | Q(ownerId=user))
+            serializer = BookingsGetSerializer(data, many=True)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
+
+
+   def post(self, request, *args, **kwargs):
+        serializer = BookingsPostSerializer(data=request.data)
+        if serializer.is_valid():
+
+            try:
+                user = request.user
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            try:
+                data=request.data
+                sitterId = User.objects.get(user_id=data['sitterId'])
+                dogId = Dogs.objects.get(id=data['dogId'])
+                lat = data['lat']
+                lon = data['lon']
+                time_start = datetime.datetime.fromtimestamp(int(data['time_start']))
+                time_end = datetime.datetime.fromtimestamp(int(data['time_end']))
+                booking = Bookings(ownerId=user, sitterId=sitterId, dogId=dogId, lat=lat, lon=lon, time_start=time_start, time_end=time_end, status='1')
+                booking.save()
+            except:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=time_start, status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_400_BAD_REQUEST)

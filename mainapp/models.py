@@ -191,22 +191,22 @@ class Bookings (models.Model):
     lat = models.DecimalField(max_digits=19, decimal_places=16, null=True)
     lon = models.DecimalField(max_digits=19, decimal_places=16, null=True)
     city= models.CharField(max_length=50, null=True)
-    time_start = DateTimeField()
-    time_end = DateTimeField()
+    time_start = DateTimeField(null=True)
+    time_end = DateTimeField(null=True)
 
     class Status(models.TextChoices):
         PENDING = '0' #ktoś kliknie zamów na danego wyprowadzacza //   '/bookings' POST
         UNDERWAY = '1' # ktoś kliknie akceptuj  '/bookings/{id}/confirm ' POST
         CANCEL = '2' # ktoś kliknie odmów      "/bookings/{id}/cancel" POST
 
-    status = models.CharField(max_length=1, choices=Status.choices)
+    status = models.CharField(max_length=1, choices=Status.choices, blank=True, null=True)
     cancelReaseon = models.CharField(max_length=255, blank=True)
-     price = models.IntegerField(blank=True, null=True)
-    createdAt = DateTimeField()
-    updated_at = DateTimeField
+    price = models.IntegerField(blank=True, null=True)
+    #createdAt = DateTimeField()
+    #updated_at = DateTimeField
 
     def __str__(self):
-        return self.name
+        return str(self.id)
 
 class MessagesUsers(models.Model):
     userFrom = models.ForeignKey('User', on_delete=models.SET_NULL, null=True, related_name='sender')

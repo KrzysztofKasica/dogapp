@@ -3,7 +3,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 from django.utils.translation import gettext_lazy as _
 
-from .models import Dogs, ServicesInfo, User,AdditionalInformation
+from .models import Bookings, Dogs, ServicesInfo, User,AdditionalInformation
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -81,6 +81,21 @@ class ServicesPostSerializer(serializers.Serializer):
     time=serializers.CharField(label=_('Time'))
     active=serializers.CharField(label=_('Active'))
     price=serializers.IntegerField(label=_('Price'))
+
+class BookingsPostSerializer(serializers.Serializer):
+    sitterId = serializers.CharField(label=_('SitterId'))
+    dogId = serializers.CharField(label=_('DogId'))
+    lat = serializers.CharField(label=_('Latitude'))
+    lon = serializers.CharField(label=_('Longitude'))
+    time_start = serializers.CharField(label=_('TimeStart'))
+    time_end = serializers.CharField(label=_('TimeEnds'))
+
+class BookingsGetSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Bookings
+        fields = (
+            'ownerId', 'sitterId', 'dogId', 'lat', 'lon', 'time_start', 'time_end'
+        )
 
 class MyTokenSerializer(serializers.Serializer):
     email = serializers.CharField(
