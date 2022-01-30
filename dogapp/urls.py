@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import mainapp
-from mainapp.views import BookingsPost, DogGetPost, DogGetPatchDelete, ServicesPostGet, TestView, RegisterUserView, LoginUserView, GetProfile, TokenRefresh
+from mainapp.views import BookingsPost, DogGetPost, DogGetPatchDelete, SearchView, ServicesPostGet, TestView, RegisterUserView, LoginUserView, GetProfile, TokenRefresh
 from rest_framework.authtoken.views import obtain_auth_token
 from rest_framework_simplejwt import views as jwt_views
 
@@ -32,5 +32,6 @@ urlpatterns = [
     path('dogs', DogGetPost.as_view(), name='getpostdogs'),
     path('dogs/<id>', DogGetPatchDelete.as_view(), name='getpatchdeletedog'),
     path('services', ServicesPostGet.as_view(), name='servicespostget'),
-    path('bookings', BookingsPost.as_view(), name='bookingspost')
+    path('bookings', BookingsPost.as_view(), name='bookingspost'),
+    path('sitters/search', SearchView.as_view(), name='search')
 ]

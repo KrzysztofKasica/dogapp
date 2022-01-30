@@ -134,6 +134,17 @@ class MyTokenSerializer(serializers.Serializer):
         attrs['user'] = user
         return attrs
 
+class SearchSerializer(serializers.Serializer):
+    type = serializers.CharField()
+    datetime_start = serializers.DateTimeField()
+    datetime_end = serializers.DateTimeField()
+    radius = serializers.IntegerField()
+    lat = serializers.CharField()
+    lon = serializers.CharField()
+    price_start = serializers.IntegerField()
+    price_end = serializers.IntegerField()
+    size_dog = serializers.IntegerField()
+
 #class ServicesSerializer(serializers.MidelSerializer):
 #    class Meta:
 #s=s        model =
