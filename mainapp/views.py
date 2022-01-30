@@ -337,7 +337,29 @@ class SearchView(APIView):
             km = 6371* c
             return km
 
-        #def daysOfWeek(days1, days2):
+        def daysOfWeek(days1, days2):
+            days = {
+                0: "1000000",
+                1: "0100000",
+                2: "0010000",
+                3: "0001000",
+                4: "0000100",
+                5: "0000010",
+                6: "0000001"
+            }
+
+            mydate = datetime.datetime(int(days1[:4]), int(days1[5:7]), int(days1[8:10]))
+            mydate = mydate.weekday()
+            days1 = days[mydate]
+            days2 = str(bin(days2)[2:])
+        
+            for _ in range(7-len(days2)):
+                days2 = "0" + days2
+        
+            i = days1.find("1")
+            if days1[i] == days2[i]:
+                return False #dont exclude
+            return True #exclude
 
 
         serializer = SearchSerializer(data=request.data)
@@ -365,15 +387,10 @@ class SearchView(APIView):
                     if distance > float(data['radius']):
                         services = services.exclude(id=service.id)
                         continue
-                    
-
-
-                
+                    if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
+                        services = services.exclude(id=service.id)
+                        continue
                 serviceserializer = ServicesGetSerializer(services, many=True)
-                
-
-
-                
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             return Response(data=serviceserializer.data, status=status.HTTP_200_OK)
