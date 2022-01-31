@@ -6,6 +6,7 @@ from django.db.models import Q
 from rest_framework import response
 import datetime
 from math import radians, cos, sin, asin, sqrt
+
 # Create your views here.
 from rest_framework_simplejwt.tokens import RefreshToken
 
@@ -325,8 +326,10 @@ class SearchView(APIView):
             Calculate the great circle distance between two points
             on the earth (specified in decimal degrees)
             """
+            return lon1
             # convert decimal degrees to radians
             lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
+
             # haversine formula
             dlon = lon2 - lon1
             dlat = lat2 - lat1
@@ -377,20 +380,22 @@ class SearchView(APIView):
             try:
                 data=request.data
 
-                services = ServicesInfo.objects.filter(active=0, price__gte=data['price_start'], price__lte=data['price_end'], maxSize__lte=data['size_dog'])
+                services = ServicesInfo.objects.filter(active="1", price__gte=data['price_start'], price__lte=data['price_end'], maxSize__lte=data['size_dog'])
                 #services = ServicesInfo.objects.all()
+
                 for service in services:
-                    searchUser = User.objects.get(user_id=service.id)
+                    searchUser = User.objects.get(user_id=service.userId.user_id)
                     adInfo = AdditionalInformation.objects.get(userId=searchUser)
                     distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
-                    if distance > float(data['radius']):
+                    if distance >= float(data['radius']):
                         services = services.exclude(id=service.id)
+                        service.extra(distance="12")
                         continue
                     if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
                         services = services.exclude(id=service.id)
                         continue
-                serviceserializer = ServicesGetSerializer(services, many=True)
+                service_serializer = ServicesGetSerializer(services, many=True)
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            return Response(data=serviceserializer.data, status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+            return Response(data=service_serializer.data, status=status.HTTP_200_OK)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
