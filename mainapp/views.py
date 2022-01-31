@@ -285,6 +285,7 @@ class BookingsPost(APIView):
             user=request.user
             data = Bookings.objects.filter(Q(sitterId=user) | Q(ownerId=user))
             serializer = BookingsGetSerializer(data, many=True)
+
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -314,25 +315,23 @@ class BookingsPost(APIView):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class SearchView(APIView):
-    
-    permission_classes = (IsAuthenticated, )
 
-    
+    permission_classes = (IsAuthenticated, )
 
     def post(self, request, *args, **kwargs):
 
         def haversine(lon1, lat1, lon2, lat2):
             """
-            Calculate the great circle distance between two points 
+            Calculate the great circle distance between two points
             on the earth (specified in decimal degrees)
             """
-            # convert decimal degrees to radians 
+            # convert decimal degrees to radians
             lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
-            # haversine formula 
-            dlon = lon2 - lon1 
-            dlat = lat2 - lat1 
+            # haversine formula
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
             a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-            c = 2 * asin(sqrt(a)) 
+            c = 2 * asin(sqrt(a))
             # Radius of earth in kilometers is 6371
             km = 6371* c
             return km
@@ -352,10 +351,10 @@ class SearchView(APIView):
             mydate = mydate.weekday()
             days1 = days[mydate]
             days2 = str(bin(days2)[2:])
-        
+
             for _ in range(7-len(days2)):
                 days2 = "0" + days2
-        
+
             i = days1.find("1")
             if days1[i] == days2[i]:
                 return False #dont exclude
@@ -374,7 +373,7 @@ class SearchView(APIView):
                 lon = adInfo.lon
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
             try:
                 data=request.data
 

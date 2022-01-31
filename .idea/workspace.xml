@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(remove packages) : remove packages">
+    <list default="true" id="c4322ba5-d8d9-4d94-91f2-9d587fb7ed65" name="Default Changelist" comment="fix(bookings model) : add location field to bookings, describe status bookings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/mainapp/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mainapp/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/mainapp/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,7 +67,7 @@
       <workItem from="1643013308227" duration="5948000" />
       <workItem from="1643121869306" duration="14704000" />
       <workItem from="1643365077316" duration="6731000" />
-      <workItem from="1643477746849" duration="3319000" />
+      <workItem from="1643477746849" duration="8193000" />
     </task>
     <task id="LOCAL-00001" summary="Init">
       <created>1642365716903</created>
@@ -284,7 +286,14 @@
       <option name="project" value="LOCAL" />
       <updated>1643386328215</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="fix(bookings model) : add location field to bookings, describe status bookings">
+      <created>1643483783535</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1643483783535</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -301,7 +310,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="origin/main" />
+                        <option value="main" />
                       </list>
                     </value>
                   </entry>
@@ -333,6 +342,7 @@
     <MESSAGE value="fix(dog create) : fix response from POST /dogs" />
     <MESSAGE value="fix(profile update) : fix profile update" />
     <MESSAGE value="fix(remove packages) : remove packages" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix(remove packages) : remove packages" />
+    <MESSAGE value="fix(bookings model) : add location field to bookings, describe status bookings" />
+    <option name="LAST_COMMIT_MESSAGE" value="fix(bookings model) : add location field to bookings, describe status bookings" />
   </component>
 </project>
