@@ -285,7 +285,16 @@ class BookingsPost(APIView):
         try:
             user=request.user
             data = Bookings.objects.filter(Q(sitterId=user) | Q(ownerId=user))
+            data = data.exclude(sitterId__isnull=True)
             serializer = BookingsGetSerializer(data, many=True)
+            for i, booking in enumerate(serializer.data):
+                d = data[i]
+                firstName = AdditionalInformation.objects.get(userId=d.sitterId).firstname
+                dogName = Dogs.objects.get(id=d.dogId.id).name
+                booking['dogName'] = dogName
+                booking['firstName'] = firstName
+                
+            
 
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -380,7 +389,7 @@ class SearchView(APIView):
             try:
                 data=request.data
 
-                services = ServicesInfo.objects.filter(active="1", price__gte=data['price_start'], price__lte=data['price_end'], maxSize__lte=data['size_dog'])
+                services = ServicesInfo.objects.filter(active="1", price__gte=data['price_start'], price__lte=data['price_end'], maxSize__gte=data['size_dog'])
                 #services = ServicesInfo.objects.all()
 
                 for service in services:
@@ -389,7 +398,7 @@ class SearchView(APIView):
                     distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
                     if distance >= float(data['radius']):
                         services = services.exclude(id=service.id)
-                        service.extra(distance="12")
+                        #service.extra(distance="12")
                         continue
                     if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
                         services = services.exclude(id=service.id)
