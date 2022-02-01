@@ -94,7 +94,7 @@ class BookingsGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = (
-            'ownerId', 'sitterId', 'dogId', 'lat', 'lon', 'time_start', 'time_end', 'price','status'
+            'id','ownerId', 'sitterId', 'dogId', 'lat', 'lon', 'time_start', 'time_end', 'price','status'
         )
 
 class MyTokenSerializer(serializers.Serializer):
@@ -144,6 +144,9 @@ class SearchSerializer(serializers.Serializer):
     price_start = serializers.IntegerField()
     price_end = serializers.IntegerField()
     size_dog = serializers.IntegerField()
+
+class BookingCancelSerializer(serializers.Serializer):
+    cancelReason = serializers.CharField()
 
 #class ServicesSerializer(serializers.MidelSerializer):
 #    class Meta:

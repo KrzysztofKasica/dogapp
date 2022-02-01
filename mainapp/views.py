@@ -318,7 +318,7 @@ class BookingsPost(APIView):
                 time_start = datetime.datetime.fromtimestamp(int(data['time_start']))
                 time_end = datetime.datetime.fromtimestamp(int(data['time_end']))
                 price = ServicesInfo.objects.get(userId=sitterId).price
-                booking = Bookings(ownerId=user, sitterId=sitterId, dogId=dogId,  lat=lat, lon=lon, time_start=time_start, time_end=time_end, status='1', price=price)
+                booking = Bookings(ownerId=user, sitterId=sitterId, dogId=dogId,  lat=lat, lon=lon, time_start=time_start, time_end=time_end, status='0', price=price)
                 booking.save()
             except:
                 return Response(data=request.data, status=status.HTTP_400_BAD_REQUEST)
@@ -420,3 +420,41 @@ class SearchView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             return Response(data=obj, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class BookingsConfirm(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, id, *args, **kwargs):
+
+        try:
+            user = request.user
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            booking = Bookings.objects.get(sitterId=user, id=id)
+            booking.status = '1'
+            booking.save()
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_200_OK)
+
+class BookingsCancel(APIView):
+
+    permission_classes = (IsAuthenticated, )
+
+    def post(self, request, id, *args, **kwargs):
+
+        try:
+            user = request.user
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        try:
+            data=request.data
+            booking = Bookings.objects.get(sitterId=user, id=id)
+            booking.status = '2'
+            booking.cancelReaseon = data['cancelReason']
+            booking.save()
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_200_OK)
