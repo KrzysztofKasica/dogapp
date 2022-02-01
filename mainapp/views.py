@@ -286,6 +286,7 @@ class BookingsPost(APIView):
             user=request.user
             data = Bookings.objects.filter(Q(sitterId=user) | Q(ownerId=user))
             data = data.exclude(sitterId__isnull=True)
+            data = data.exclude(dogId__isnull=True)
             serializer = BookingsGetSerializer(data, many=True)
             for i, booking in enumerate(serializer.data):
                 d = data[i]
@@ -293,9 +294,6 @@ class BookingsPost(APIView):
                 dogName = Dogs.objects.get(id=d.dogId.id).name
                 booking['dogName'] = dogName
                 booking['firstName'] = firstName
-                
-            
-
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(data=serializer.data, status=status.HTTP_200_OK)
@@ -317,11 +315,12 @@ class BookingsPost(APIView):
                 lon = data['lon']
                 time_start = datetime.datetime.fromtimestamp(int(data['time_start']))
                 time_end = datetime.datetime.fromtimestamp(int(data['time_end']))
-                booking = Bookings(ownerId=user, sitterId=sitterId, dogId=dogId, lat=lat, lon=lon, time_start=time_start, time_end=time_end, status='1')
+                price = ServicesInfo.objects.get(userId=sitterId).price
+                booking = Bookings(ownerId=user, sitterId=sitterId, dogId=dogId,  lat=lat, lon=lon, time_start=time_start, time_end=time_end, status='1', price=price)
                 booking.save()
             except:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-            return Response(data=time_start, status=status.HTTP_200_OK)
+                return Response(data=request.data, status=status.HTTP_400_BAD_REQUEST)
+            return Response( status=status.HTTP_200_OK)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 class SearchView(APIView):
@@ -404,6 +403,10 @@ class SearchView(APIView):
                         services = services.exclude(id=service.id)
                         continue
                 service_serializer = ServicesGetSerializer(services, many=True)
+
+                for i, service in enumerate(service_serializer.data):
+
+                    pass
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             return Response(data=service_serializer.data, status=status.HTTP_200_OK)
