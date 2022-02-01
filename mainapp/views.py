@@ -413,8 +413,8 @@ class SearchView(APIView):
                     service['distance'] = distances[i]
                     service['firstname'] = firstNames[i]
                     service['desc'] = descriptions[i]
-
+                obj = sorted(service_serializer.data, key=lambda x:x['distance'])
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
-            return Response(data=service_serializer.data, status=status.HTTP_200_OK)
+            return Response(data=obj, status=status.HTTP_200_OK)
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
