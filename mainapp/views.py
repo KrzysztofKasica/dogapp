@@ -290,10 +290,12 @@ class BookingsPost(APIView):
             serializer = BookingsGetSerializer(data, many=True)
             for i, booking in enumerate(serializer.data):
                 d = data[i]
-                firstName = AdditionalInformation.objects.get(userId=d.sitterId).firstname
+                firstNameSitter = AdditionalInformation.objects.get(userId=d.sitterId).firstname
+                firstNameOwner = AdditionalInformation.objects.get(userId=d.ownerId).firstname
                 dogName = Dogs.objects.get(id=d.dogId.id).name
-                booking['dogName'] = dogName
-                booking['firstName'] = firstName
+                booking['dog_name'] = dogName
+                booking['sitter_firstname'] = firstNameSitter
+                booking['owner_firstname'] = firstNameOwner
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         return Response(data=serializer.data, status=status.HTTP_200_OK)

@@ -94,7 +94,7 @@ class BookingsGetSerializer(serializers.ModelSerializer):
     class Meta:
         model = Bookings
         fields = (
-            'ownerId', 'sitterId', 'dogId', 'lat', 'lon', 'time_start', 'time_end', 'price'
+            'ownerId', 'sitterId', 'dogId', 'lat', 'lon', 'time_start', 'time_end', 'price','status'
         )
 
 class MyTokenSerializer(serializers.Serializer):

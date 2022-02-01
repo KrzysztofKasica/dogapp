@@ -200,7 +200,7 @@ class Bookings (models.Model):
         CANCEL = '2' # ktoś kliknie odmów      "/bookings/{id}/cancel" POST
 
     status = models.CharField(max_length=1, choices=Status.choices, blank=True, null=True)
-    cancelReaseon = models.CharField(max_length=255, blank=True)
+    cancelReaseon = models.CharField(max_length=255, blank=True, null=True)
     price = models.IntegerField(blank=True, null=True)
     #createdAt = DateTimeField()
     #updated_at = DateTimeField
