@@ -239,14 +239,18 @@ class DogGetPatchDelete(APIView):
             dog = Dogs.objects.filter(userId = user, id = id).delete()
         except:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-        return Response(status=status.HTTP_202_ACCEPTED)
+        return Response(data="ok",status=status.HTTP_200_OK)
 
 class ServicesPostGet(APIView):
 
     permission_classes = (IsAuthenticated, )
 
     def get(self, request, *args, **kwargs):
-        qs = ServicesInfo.objects.all()
+        try:
+           user = request.user
+        except:
+           return Response(status=status.HTTP_400_BAD_REQUEST)
+        qs = ServicesInfo.objects.filter(userId = user)
         serializer = ServicesGetSerializer(qs, many=True)
         return Response(serializer.data)
 
@@ -336,7 +340,7 @@ class SearchView(APIView):
             Calculate the great circle distance between two points
             on the earth (specified in decimal degrees)
             """
-            return lon1
+            #return lon1
             # convert decimal degrees to radians
             lon1, lat1, lon2, lat2 = map(radians, [lon1, lat1, lon2, lat2])
 
@@ -382,8 +386,8 @@ class SearchView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             try:
                 adInfo = AdditionalInformation.objects.get(userId=user)
-                lat = adInfo.lat
-                lon = adInfo.lon
+                lat = request.data['lat']
+                lon = request.data['lon']
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -437,7 +441,7 @@ class BookingsConfirm(APIView):
             booking.save()
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
+        return Response(data="ok",status=status.HTTP_200_OK)
 
 class BookingsCancel(APIView):
 
@@ -457,4 +461,4 @@ class BookingsCancel(APIView):
             booking.save()
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        return Response(status=status.HTTP_200_OK)
+        return Response(data="ok",status=status.HTTP_200_OK)
