@@ -399,6 +399,7 @@ class SearchView(APIView):
                 distances =[]
                 firstNames = []
                 descriptions = []
+                sitterId = []
                 for service in services:
                     searchUser = User.objects.get(user_id=service.userId.user_id)
                     adInfo = AdditionalInformation.objects.get(userId=searchUser)
@@ -406,6 +407,7 @@ class SearchView(APIView):
                     distances.append(distance)
                     firstNames.append(adInfo.firstname)
                     descriptions.append(adInfo.desc)
+                    sitterId.append(searchUser.user_id)
                     if distance >= float(data['radius']):
                         services = services.exclude(id=service.id)
                         #service.extra(distance="12")
@@ -419,6 +421,7 @@ class SearchView(APIView):
                     service['distance'] = distances[i]
                     service['firstname'] = firstNames[i]
                     service['desc'] = descriptions[i]
+                    service['sitterId'] = sitterId[i]
                 obj = sorted(service_serializer.data, key=lambda x:x['distance'])
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
