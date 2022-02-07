@@ -351,7 +351,7 @@ class SearchView(APIView):
             c = 2 * asin(sqrt(a))
             # Radius of earth in kilometers is 6371
             km = 6371* c
-            return km
+            return abs(km)
 
         def daysOfWeek(days1, days2):
             days = {
