@@ -410,7 +410,6 @@ class SearchView(APIView):
                     sitterId.append(searchUser.user_id)
                     if distance >= float(data['radius']):
                         services = services.exclude(id=service.id)
-                        #service.extra(distance="12")
                         continue
                     if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
                         services = services.exclude(id=service.id)
