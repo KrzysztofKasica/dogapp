@@ -403,7 +403,7 @@ class SearchView(APIView):
                 for service in services:
                     #searchUser = User.objects.get(user_id=service.userId.user_id)
                     #adInfo = AdditionalInformation.objects.get(userId=searchUser)
-                    #distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
+                    distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
                     #distances.append(distance)
                     #firstNames.append(adInfo.firstname)
                     #descriptions.append(adInfo.desc)
