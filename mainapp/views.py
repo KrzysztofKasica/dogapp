@@ -385,7 +385,7 @@ class SearchView(APIView):
             except:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
             try:
-                adInfo = AdditionalInformation.objects.get(userId=user)
+                #adInfo = AdditionalInformation.objects.get(userId=user)
                 lat = request.data['lat']
                 lon = request.data['lon']
             except:
@@ -393,7 +393,6 @@ class SearchView(APIView):
 
             try:
                 data=request.data
-
                 services = ServicesInfo.objects.filter(active="1", price__gte=data['price_start'], price__lte=data['price_end'], maxSize__gte=data['size_dog'])
                 #services = ServicesInfo.objects.all()
                 distances =[]
@@ -401,8 +400,8 @@ class SearchView(APIView):
                 descriptions = []
                 sitterId = []
                 for service in services:
-                    #searchUser = User.objects.get(user_id=service.userId.user_id)
-                    #adInfo = AdditionalInformation.objects.get(userId=searchUser)
+                    searchUser = User.objects.get(user_id=service.userId.user_id)
+                    adInfo = AdditionalInformation.objects.get(userId=searchUser)
                     distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
                     #distances.append(distance)
                     #firstNames.append(adInfo.firstname)
