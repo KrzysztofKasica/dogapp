@@ -401,6 +401,21 @@ class SearchView(APIView):
                 descriptions = []
                 sitterId = []
                 for service in services:
+                    #searchUser = User.objects.get(user_id=service.userId.user_id)
+                    #adInfo = AdditionalInformation.objects.get(userId=searchUser)
+                    #distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
+                    #distances.append(distance)
+                    #firstNames.append(adInfo.firstname)
+                    #descriptions.append(adInfo.desc)
+                    #sitterId.append(searchUser.user_id)
+                    if int(distance) >= data['radius']:
+                        services = services.exclude(id=service.id)
+                        continue
+                    if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
+                        services = services.exclude(id=service.id)
+                        continue
+
+                for service in services:
                     searchUser = User.objects.get(user_id=service.userId.user_id)
                     adInfo = AdditionalInformation.objects.get(userId=searchUser)
                     distance = haversine(lon, lat, adInfo.lon, adInfo.lat)
@@ -408,12 +423,7 @@ class SearchView(APIView):
                     firstNames.append(adInfo.firstname)
                     descriptions.append(adInfo.desc)
                     sitterId.append(searchUser.user_id)
-                    if int(distance) >= data['radius']:
-                        services = services.exclude(id=service.id)
-                        continue
-                    if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
-                        services = services.exclude(id=service.id)
-                        continue
+
                 service_serializer = ServicesGetSerializer(services, many=True)
 
                 for i, service in enumerate(service_serializer.data):
@@ -428,9 +438,7 @@ class SearchView(APIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class BookingsConfirm(APIView):
-
     permission_classes = (IsAuthenticated, )
-
     def post(self, request, id, *args, **kwargs):
 
         try:
