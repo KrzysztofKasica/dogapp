@@ -138,7 +138,7 @@ class SearchSerializer(serializers.Serializer):
     type = serializers.CharField()
     datetime_start = serializers.DateTimeField()
     datetime_end = serializers.DateTimeField()
-    radius = serializers.IntegerField()
+    radius = serializers.FloatField()
     lat = serializers.CharField()
     lon = serializers.CharField()
     price_start = serializers.IntegerField()
