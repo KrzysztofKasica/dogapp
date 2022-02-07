@@ -5,7 +5,7 @@ from rest_framework import serializers, status
 from django.db.models import Q
 from rest_framework import response
 import datetime
-from math import radians, cos, sin, asin, sqrt
+from math import radians, cos, sin, asin, sqrt, isclose
 
 # Create your views here.
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -408,7 +408,7 @@ class SearchView(APIView):
                     firstNames.append(adInfo.firstname)
                     descriptions.append(adInfo.desc)
                     sitterId.append(searchUser.user_id)
-                    if distance >= float(data['radius']):
+                    if isclose(distance,float(data['radius']):
                         services = services.exclude(id=service.id)
                         continue
                     if daysOfWeek(data['datetime_start'][:10], service.daysOfWeek):
